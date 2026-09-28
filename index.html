@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html><head><title>LegalEase</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:white;display:flex;justify-content:center;padding:30px}
+.box{background:#1e293b;padding:25px;border-radius:15px;width:650px}
+textarea{width:100%;padding:12px;border-radius:8px;border:none;margin:10px 0}
+button{background:#3b82f6;color:white;padding:12px;border:none;border-radius:8px;width:100%;font-size:16px;cursor:pointer}
+#result{background:#0f172a;padding:15px;margin-top:15px;border-radius:8px;white-space:pre-wrap;min-height:120px}
+</style></head><body>
+<div class="box">
+<h2> LegalEase AI</h2>
+<textarea id="prompt" rows="4" placeholder="e.g. Draft rent agreement for 2BHK in Chennai 11 months"></textarea>
+<button onclick="generate()">Generate Document</button>
+<div id="result">Result will appear here...</div>
+</div>
+<script>
+async function generate(){
+ const p=document.getElementById('prompt').value;
+ const r=document.getElementById('result');
+ r.innerText="Generating... ⏳";
+ let res=await fetch("http://127.0.0.1:8000/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:p})});
+ let d=await res.json();
+ r.innerText=d.result||d.error;
+}
+</script></body></html>
